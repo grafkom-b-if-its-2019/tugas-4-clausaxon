@@ -7,19 +7,17 @@
   var canvas = document.getElementById("glcanvas");
   var gl = glUtils.checkWebGL(canvas);
 
-  var scale = 0;
-  var adder = 0.0088;
+  var scale = 2;
+  var adder = 0.0090;
 
-  var testerA = 0;
-  var testerB = 0;
-  var testerC = 0;
+ 
 
-  var xAdders = 0.04/2;
-  var yAdders = 0.03/2;
-  var zAdders = 0.02/2;
+  var xAdders = 0.04;
+  var yAdders = 0.03;
+  var zAdders = 0.02;
   var translate = [0, 0, -0.5];
 
-  var current_middle = [0.4, -0.2, 0];
+  var current_middle = [0, 0, 0];
 
   var theta = [0, 0, 0];
   var axis = 0;
@@ -120,7 +118,7 @@
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
       
       drawA(gl.TRIANGLES, triangleVertices, 1, shaders[1]);
-      drawA(gl.LINES, cubeVertices, 0, shaders[0]);
+      drawA(gl.TRIANGLES, cubeVertices, 0, shaders[0]);
     
       requestAnimationFrame(render);
     }
@@ -178,9 +176,9 @@
     function initBuffers(mode, vertices, program) {
       var n;
       if (mode) {
-        n = vertices.length/5;
+        n = vertices.length;
       } else {
-        n = vertices.length/6;
+        n = vertices.length;
       }
       // console.log(vertices);
 
@@ -203,9 +201,9 @@
       // console.log(pm);
 
       glMatrix.mat4.lookAt(vm,
-        glMatrix.vec3.fromValues(0.0, 0.0, -0.5),    // posisi kamera
-        glMatrix.vec3.fromValues(0.0, 0.0, -2.0),  // titik yang dilihat; pusat kubus akan kita pindah ke z=-2
-        glMatrix.vec3.fromValues(0.0, 1.0, 0.0)   // arah atas dari kamera
+        glMatrix.vec3.fromValues(0.0, 0.0, 0.0),    // posisi kamera
+        glMatrix.vec3.fromValues(0.0, 0.0, 0.0),  // titik yang dilihat; pusat kubus akan kita pindah ke z=-2
+        glMatrix.vec3.fromValues(0.0, 0.0, 0.0)   // arah atas dari kamera
       );
 
       var fovy = glMatrix.glMatrix.toRadian(90.0);
@@ -231,7 +229,7 @@
       var ambientColorLoc = gl.getUniformLocation(program, 'ambientColor');
       var lightColor = [1, 1, 1];
       var lightPosition = [translate[0], translate[1], -2 + translate[2]];
-      var ambientColor = glMatrix.vec3.fromValues(0.2, 0.2, 0.2);
+      var ambientColor = glMatrix.vec3.fromValues(0.17, 0.40, 0.90);
       gl.uniform3fv(lightColorLoc, lightColor);
       gl.uniform3fv(lightPositionLoc, lightPosition);
       gl.uniform3fv(ambientColorLoc, ambientColor);
@@ -241,10 +239,10 @@
         var vColor = gl.getAttribLocation(program, 'vColor');
 
         if (scale > 1){
-          adder = -0.0088
+          adder = -0.0090
         }
         else if (scale < -1){
-          adder = 0.0088
+          adder = 0.0090
         }
 
         scale += adder;
@@ -365,7 +363,7 @@
 
     // Membuat mekanisme pembacaan gambar jadi tekstur
     function initTexture(texture) {
-      var imageSource = 'images/IMG_20191126_084414.jpg';
+      var imageSource = 'images/WhatsApp Image 2019-12-08 at 14.18.00.jpeg';
       var image = new Image();
       if (!image) {
         reject(new Error('Gagal membuat objek gambar'));
@@ -383,4 +381,6 @@
   }
 
 })();
+
+
 
